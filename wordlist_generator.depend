@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1601957473 source:c:\users\berni\desktop\projects\wordlist_generator\main.cpp
+	<iostream>
+	<string>
+	<vector>
+	<sstream>
+
