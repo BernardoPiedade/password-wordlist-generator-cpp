@@ -8,11 +8,12 @@
 //vector that will hold the complete wordlist
 std::vector<std::string> wordlist;
 
-//vector to store other keywords
+//vector to store keywords
 std::vector<std::string> keywords;
 
 std::string n;
 
+bool changeChars = false;
 
 void writeFile()
 {
@@ -26,9 +27,9 @@ void writeFile()
 
 void generateWordlist()
 {
-    for(int i = 0; i < keywords.size(); i++)
+    for(std::size_t i = 0; i < keywords.size(); i++)
     {
-        for(int j = 0; j < keywords.size(); j++)
+        for(std::size_t j = 0; j < keywords.size(); j++)
         {
             if(j == i && j != keywords.size())
             {
@@ -45,9 +46,39 @@ void generateWordlist()
 
 void joinResults(std::vector<std::string> result)
 {
-    for(int i = 0; i < result.size(); i++)
+    for(std::size_t i = 0; i < result.size(); i++)
     {
         keywords.push_back(result[i]);
+    }
+
+    //This will only cover some letters, as an example
+    if(changeChars == true)
+    {
+        int keywords_size = keywords.size();
+        for(std::size_t i = 0; i < keywords_size; i++)
+        {
+            std::string temp = keywords[i];
+            for(std::size_t j = 0; j < temp.length(); j++)
+            {
+                if(temp[j] == 'A' || temp[j] == 'a')
+                {
+                    temp[j] = '4';
+                }
+                else if(temp[j] == 'E' || temp[j] == 'e')
+                {
+                    temp[j] = '3';
+                }
+                else if(temp[j] == 'O' || temp[j] == 'o')
+                {
+                    temp[j] = '0';
+                }
+                else if(temp[j] == 'I' || temp[j] == 'i')
+                {
+                    temp[j] = '1';
+                }
+            }
+            keywords.push_back(temp);
+        }
     }
 
     generateWordlist();
@@ -93,8 +124,18 @@ int main()
 
     std::cout << std::endl;
 
-    std::cout << "Enter other keywords in a single line separated by a comma (ex.: code,coder,cpp):" << std::endl;
+    std::cout << "Enter other keywords in a single line separated by a comma (ex.: code,coder,cpp):" << std::endl << std::endl;
     std::cin >> n;
+
+    std::cout << "Do you want to change letters by numbers? This will double the size of the wordlist. (y/n)" << std::endl;
+    char answer;
+    std::cin >> answer;
+    //after answering the programs gets stuck and breaks with code
+
+    if (answer == 'y')
+    {
+        changeChars = true;
+    }
 
     parseString(n);
 
