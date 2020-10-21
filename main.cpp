@@ -14,6 +14,7 @@ std::vector<std::string> keywords;
 std::string n;
 
 bool changeChars = false;
+bool addSymbols = false;
 
 void writeFile()
 {
@@ -21,7 +22,7 @@ void writeFile()
     std::ostream_iterator<std::string> output_iterator(output_file, "\n");
     std::copy(wordlist.begin(), wordlist.end(), output_iterator);
 
-    std::cout << "Done." << std::endl;
+    std::cout << "\nDone." << std::endl;
 }
 
 
@@ -36,7 +37,18 @@ void generateWordlist()
                 continue;
             }
 
-            wordlist.push_back(keywords[i]+keywords[j]);
+            if(addSymbols)
+            {
+                std::string symbols_arr[] = {"!","@","#","£","$","§","%","&"};
+
+                for(std::size_t k = 0; k < 8; k++)
+                {
+                    std::string temp = keywords[j] + symbols_arr[k];
+                    wordlist.push_back(keywords[i] + temp);
+                }
+            }
+
+            wordlist.push_back(keywords[i] + keywords[j]);
         }
     }
 
@@ -51,7 +63,6 @@ void joinResults(std::vector<std::string> result)
         keywords.push_back(result[i]);
     }
 
-    //This will only cover some letters, as an example
     if(changeChars == true)
     {
         int keywords_size = keywords.size();
@@ -75,6 +86,10 @@ void joinResults(std::vector<std::string> result)
                 else if(temp[j] == 'I' || temp[j] == 'i')
                 {
                     temp[j] = '1';
+                }
+                else if(temp[j] == 'S' || temp[j] == 's')
+                {
+                    temp[j] = '5';
                 }
             }
             keywords.push_back(temp);
@@ -127,14 +142,22 @@ int main()
     std::cout << "Enter other keywords in a single line separated by a comma (ex.: code,coder,cpp):" << std::endl << std::endl;
     std::cin >> n;
 
-    std::cout << "Do you want to change letters by numbers? This will double the size of the wordlist. (y/n)" << std::endl;
-    char answer;
-    std::cin >> answer;
-    //after answering the programs gets stuck and breaks with code
+    std::cout << "\nDo you want to change letters by numbers? This will double the size of the wordlist. (y/n)" << std::endl;
+    char answer_num;
+    std::cin >> answer_num;
 
-    if (answer == 'y')
+    if (answer_num == 'y')
     {
         changeChars = true;
+    }
+
+    std::cout << "\nDo you want to add symbols to the end of the words? (y/n)" << std::endl;
+    char answer_sym;
+    std::cin >> answer_sym;
+
+    if (answer_sym == 'y')
+    {
+        addSymbols = true;
     }
 
     parseString(n);
