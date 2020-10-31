@@ -65,7 +65,7 @@ void joinResults(std::vector<std::string> result)
 
     if(changeChars == true)
     {
-        int keywords_size = keywords.size();
+        std::size_t keywords_size = keywords.size();
         for(std::size_t i = 0; i < keywords_size; i++)
         {
             std::string temp = keywords[i];
@@ -118,35 +118,35 @@ int main()
     std::cout << "Enter the basic info: " << std::endl << std::endl;
 
     std::cout << "First Name: ";
-    std::cin >> n;
+    getline(std::cin, n);
     keywords.push_back(n);
 
     std::cout << "Second Name: ";
-    std::cin >> n;
+    getline(std::cin, n);
     keywords.push_back(n);
 
     std::cout << "Favourite Color: ";
-    std::cin >> n;
+    getline(std::cin, n);
     keywords.push_back(n);
 
     std::cout << "Year of Birth: ";
-    std::cin >> n;
+    getline(std::cin, n);
     keywords.push_back(n);
 
     std::cout << "Pet Name: ";
-    std::cin >> n;
+    getline(std::cin, n);
     keywords.push_back(n);
 
     std::cout << std::endl;
 
-    std::cout << "Enter other keywords in a single line separated by a comma (ex.: code,coder,cpp):" << std::endl << std::endl;
-    std::cin >> n;
+    std::cout << "Enter other keywords in a single line separated by a comma (ex.: code,coder,cpp) | Or leave empty:" << std::endl << std::endl;
+    getline(std::cin, n);
 
     std::cout << "\nDo you want to change letters by numbers? This will double the size of the wordlist. (y/n)" << std::endl;
     char answer_num;
     std::cin >> answer_num;
 
-    if (answer_num == 'y')
+    if (answer_num == 'y' || answer_num == 'Y')
     {
         changeChars = true;
     }
@@ -155,7 +155,7 @@ int main()
     char answer_sym;
     std::cin >> answer_sym;
 
-    if (answer_sym == 'y')
+    if (answer_sym == 'y' || answer_sym == 'Y')
     {
         addSymbols = true;
     }
