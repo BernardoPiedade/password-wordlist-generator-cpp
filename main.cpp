@@ -4,6 +4,10 @@
 #include <sstream>
 #include <fstream>
 #include <iterator>
+#include <algorithm>
+
+//custom header
+#include "check_word.hpp"
 
 //vector that will hold the complete wordlist
 std::vector<std::string> wordlist;
@@ -15,6 +19,7 @@ std::string n;
 
 bool changeChars = false;
 bool addSymbols = false;
+bool changeLowerUpper = false;
 
 void writeFile()
 {
@@ -32,23 +37,31 @@ void generateWordlist()
     {
         for(std::size_t j = 0; j < keywords.size(); j++)
         {
-            if(j == i && j != keywords.size())
+            if(j == i || is_word_same(keywords[i],keywords[j]))
             {
                 continue;
             }
 
             if(addSymbols)
             {
-                std::string symbols_arr[] = {"!","@","#","£","$","§","%","&"};
-
-                for(std::size_t k = 0; k < 8; k++)
+                if(j == i || is_word_same(keywords[i],keywords[j]))
                 {
-                    std::string temp = keywords[j] + symbols_arr[k];
-                    wordlist.push_back(keywords[i] + temp);
+                    continue;
+                }
+                else
+                {
+                    std::string symbols_arr[] = {"!","@","#","£","$","§","%","&","'","=","«","»","?","+","-","_","<",">","*"};
+
+                    for(std::size_t k = 0; k < (sizeof(symbols_arr) / sizeof(symbols_arr[0])); k++)
+                    {
+                        std::string temp = keywords[i] + keywords[j] + symbols_arr[k];
+                        wordlist.push_back(temp);
+                    }
                 }
             }
 
-            wordlist.push_back(keywords[i] + keywords[j]);
+            std::string temp = keywords[i] + keywords[j];
+            wordlist.push_back(temp);
         }
     }
 
@@ -63,7 +76,22 @@ void joinResults(std::vector<std::string> result)
         keywords.push_back(result[i]);
     }
 
-    if(changeChars == true)
+    if(changeLowerUpper)
+    {
+        std::size_t keywords_size = keywords.size();
+        for(std::size_t i = 0; i < keywords_size; i++)
+        {
+            // send to change to upper
+            std::string temp = word_toUpper(keywords[i]);
+            keywords.push_back(temp);
+
+            // send to change to lower
+            temp = word_toLower(keywords[i]);
+            keywords.push_back(temp);
+        }
+    }
+
+    if(changeChars)
     {
         std::size_t keywords_size = keywords.size();
         for(std::size_t i = 0; i < keywords_size; i++)
@@ -151,13 +179,22 @@ int main()
         changeChars = true;
     }
 
-    std::cout << "\nDo you want to add symbols to the end of the words? (y/n)" << std::endl;
+    std::cout << "\nDo you want to add symbols to the end of the keywords? This will double the size of the wordlist. (y/n)" << std::endl;
     char answer_sym;
     std::cin >> answer_sym;
 
     if (answer_sym == 'y' || answer_sym == 'Y')
     {
         addSymbols = true;
+    }
+
+    std::cout << "\nDo you want to add all-lowercase and all-uppercase keywords? This will double the size of the wordlist. (y/n)" << std::endl;
+    char answer_lower_upper;
+    std::cin >> answer_lower_upper;
+
+    if(answer_lower_upper == 'y' || answer_lower_upper == 'Y')
+    {
+        changeLowerUpper = true;
     }
 
     parseString(n);

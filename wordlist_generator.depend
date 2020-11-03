@@ -1,13 +1,20 @@
 # depslib dependency file v1.0
-1604163671 source:c:\users\berni\desktop\projects\wordlist_generator\main.cpp
+1604437309 source:c:\users\berni\desktop\projects\wordlist_generator\main.cpp
 	<iostream>
 	<string>
 	<vector>
 	<sstream>
 	<fstream>
 	<iterator>
+	<algorithm>
+	"check_word.hpp"
 
 1601959281 c:\users\berni\desktop\projects\wordlist_generator\untitled2.h
 	<string>
 	<iostream>
+
+1604437459 c:\users\berni\desktop\projects\wordlist_generator\check_word.hpp
+	<iostream>
+	<string>
+	<algorithm>
 
